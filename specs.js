@@ -13,9 +13,9 @@ const SPECS = [
   { class: "Druide", spec: "Gardien",       role: "tank",  icon: "ability_racial_bearform",         status: "sur-demande" },
   { class: "Druide", spec: "Restauration",  role: "heal",  icon: "spell_nature_healingtouch",       status: "sur-demande" },
 
-  { class: "Évocateur", spec: "Dévastation",   role: "dps",  icon: "ability_evoker_specdevastation",   status: "sur-demande" },
-  { class: "Évocateur", spec: "Préservation",  role: "heal", icon: "ability_evoker_specpreservation",  status: "sur-demande" },
-  { class: "Évocateur", spec: "Augmentation",  role: "dps",  icon: "ability_evoker_specaugmentation",  status: "sur-demande" },
+  { class: "Évocateur", spec: "Dévastation",   role: "dps",  icon: "classicon_evoker_devastation",   status: "sur-demande" },
+  { class: "Évocateur", spec: "Préservation",  role: "heal", icon: "classicon_evoker_preservation",  status: "sur-demande" },
+  { class: "Évocateur", spec: "Augmentation",  role: "dps",  icon: "classicon_evoker_augmentation",  status: "sur-demande" },
 
   { class: "Chasseur", spec: "Bête",          role: "dps", icon: "ability_hunter_bestialdiscipline", status: "sur-demande" },
   { class: "Chasseur", spec: "Précision",     role: "dps", icon: "ability_hunter_focusedaim",        status: "sur-demande" },
