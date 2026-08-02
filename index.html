@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WAÍT FOR IT — Guilde Ysondre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="ember-field" aria-hidden="true"></div>
+
+<img class="banner-full" src="assets/banniere.png" alt="WAÍT FOR IT">
+
+<header class="hero">
+  <p class="eyebrow">EU-YSONDRE</p>
+  <p class="recruit-flag">Recrutement ouvert sur toutes les classes / rôles pour la S2 de Midnight</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="#recrutement">Postuler</a>
+    <a class="btn btn-ghost" href="#discord">Rejoindre le Discord</a>
+  </div>
+</header>
+
+<section class="stats" id="stats">
+  <div class="stat-card">
+    <p class="stat-label">Progression mythique</p>
+    <p class="stat-value" id="stat-progress">—</p>
+    <div class="ember-bar" id="ember-bar" aria-hidden="true"></div>
+  </div>
+</section>
+
+<section class="ambitions">
+  <h2>Nos ambitions</h2>
+  <p>Fournir un cadre stable, mature et performant qui permet de clean rapidement chaque tier, tout en maintenant une vraie ambiance de guilde. Pas de maux de tête, que de l'efficacité et de la rigueur dans une bonne mentalité.</p>
+</section>
+
+<section class="schedule">
+  <h2>Planning de raid</h2>
+  <ul class="schedule-list">
+    <li><span class="schedule-label">En progress</span><span>5 soirs / semaine (probablement un 6ème soir la première semaine du progress, le mardi)</span></li>
+    <li><span class="schedule-label">Jours off</span><span>Mardi &amp; samedi</span></li>
+    <li><span class="schedule-label">En farm</span><span>1 à 2 soirs / semaine</span></li>
+    <li><span class="schedule-label">Horaire fixe</span><span>20:30 – 00:00 (pull à 20:00 les premières semaines du progress)</span></li>
+  </ul>
+</section>
+
+<section class="expectations">
+  <h2>Ce que nous attendons de vous</h2>
+  <ul class="expectations-list">
+    <li>Présence active en raid et hors raid (préparation, M+, splits…)</li>
+    <li>Fiabilité, régularité, autonomie</li>
+    <li>Au moins 3 personnages maîtrisés et optimisés</li>
+    <li>Esprit compétitif et capacité à accepter la critique</li>
+    <li>Aucune toxicité — vous représentez la guilde</li>
+  </ul>
+  <p class="expectations-note">Si ces attentes vous dépassent, inutile de postuler.</p>
+</section>
+
+<section class="recruitment-status" id="recrutement-specs">
+  <h2>Postes ouverts par spécialisation</h2>
+  <p class="section-sub">L'état ci-dessous est mis à jour manuellement par l'officier recrutement.</p>
+  <div class="status-legend">
+    <span><i class="status-badge status-ouvert"></i> Ouvert</span>
+    <span><i class="status-badge status-sur-demande"></i> Sur demande</span>
+    <span><i class="status-badge status-complet"></i> Complet</span>
+  </div>
+  <div id="spec-grid" class="spec-grid"></div>
+</section>
+
+<section class="recrutement" id="recrutement">
+  <h2>Candidature</h2>
+  <p class="section-sub">Remplissez le formulaire, on revient vers vous sur Discord.</p>
+  <a class="btn btn-primary btn-large" href="https://forms.gle/6snwo4SWF6qibQSo7" target="_blank" rel="noopener">Ouvrir le formulaire de candidature</a>
+</section>
+
+<footer id="discord">
+  <p>WAÍT FOR IT — Ysondre (EU)</p>
+  <a href="https://discord.gg/jNheH5FGG" target="_blank" rel="noopener">Discord de la guilde</a>
+  <div class="contacts">
+    <p class="contacts-label">Contacts Battle.net</p>
+    <p>cRis#2325</p>
+    <p>Zekke#2157</p>
+  </div>
+</footer>
+
+<script src="specs.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
