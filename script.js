@@ -65,7 +65,8 @@ function buildBlock(slug, raid) {
 
   let iconsRow = "";
   if (bosses && bosses.length === total) {
-    iconsRow = `<div class="boss-icons">${bosses.map((b, i) => {
+    const singleClass = bosses.length === 1 ? " boss-icons-single" : "";
+    iconsRow = `<div class="boss-icons${singleClass}">${bosses.map((b, i) => {
       const img = b.url
         ? `<img src="${b.url}"
                alt="${b.name}" title="${b.name}" loading="lazy"

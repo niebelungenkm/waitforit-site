@@ -195,6 +195,10 @@ a { color: var(--ember); }
   justify-content: center;
 }
 
+.boss-icons-single span {
+  justify-content: flex-start;
+}
+
 .boss-icons img,
 .boss-icon-fallback {
   width: 100%;
