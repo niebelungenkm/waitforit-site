@@ -386,6 +386,12 @@ section h2 {
 .spec-card.status-sur-demande { border-left-color: var(--amber); }
 .spec-card.status-complet { border-left-color: var(--red); }
 
+.spec-icons {
+  display: flex;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
 .spec-icon {
   width: 22px;
   height: 22px;
