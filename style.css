@@ -122,11 +122,11 @@ a { color: var(--ember); }
 .layout {
   position: relative;
   z-index: 1;
-  max-width: 1100px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 3rem 1.5rem 0;
   display: grid;
-  grid-template-columns: 1fr 300px;
+  grid-template-columns: 300px 1fr 300px;
   gap: 2.5rem;
   align-items: start;
 }
@@ -139,6 +139,9 @@ a { color: var(--ember); }
 .side-col {
   position: sticky;
   top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
 .progression-panel {
@@ -188,13 +191,16 @@ a { color: var(--ember); }
   margin: 0;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
   .layout {
     grid-template-columns: 1fr;
   }
   .side-col {
     position: static;
     order: -1;
+  }
+  .side-col-left:empty {
+    display: none;
   }
 }
 
