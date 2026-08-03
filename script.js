@@ -66,16 +66,13 @@ function buildRankLine(slug, raid, rankings) {
   const r = diffKey && rankings[slug][diffKey];
   if (!r) return "";
 
-  const realm = r.realm ?? r.realm_rank ?? null;
-  const fr = r.faction ?? r.realm_faction ?? r.fr ?? null;
-  const region = r.region ?? r.region_rank ?? null;
-  const world = r.world ?? r.world_rank ?? null;
-
+  // L'API publique raider.io ne fournit que world / region / realm.
+  // Le classement "FR" (faction-realm) affiché sur raider.io est calculé
+  // côté site web uniquement et n'est pas exposé par cette API.
   const parts = [];
-  if (realm != null) parts.push(`#REALM: ${realm}`);
-  if (fr != null) parts.push(`#FR: ${fr}`);
-  if (region != null) parts.push(`#EU: ${region}`);
-  if (world != null) parts.push(`#WORLD: ${world}`);
+  if (r.realm != null) parts.push(`#REALM: ${r.realm}`);
+  if (r.region != null) parts.push(`#EU: ${r.region}`);
+  if (r.world != null) parts.push(`#WORLD: ${r.world}`);
 
   return parts.length ? `<p class="progress-rank">${parts.join("&nbsp;&nbsp;")}</p>` : "";
 }
