@@ -21,7 +21,7 @@ const RAID_NAME_MAP = {
 
 // Identifiants (ou fragments d'identifiants) qui appartiennent à la Saison 1.
 // Tout ce qui ne matche pas ici est classé en Saison 2.
-const SEASON_1_HINTS = ["tier", "voidspire", "dreamrift", "quel-danas", "queldanas"];
+const SEASON_1_HINTS = ["tier", "voidspire", "dreamrift", "quel-danas", "queldanas", "sporefall"];
 
 function prettifyRaidName(slug) {
   if (RAID_NAME_MAP[slug]) return RAID_NAME_MAP[slug];
@@ -55,16 +55,33 @@ async function loadGuildData() {
 function buildBlock(slug, raid) {
   const summary = raid.summary || "—";
   const [killed, total] = summary.split("/").map(s => parseInt(s));
-  const bars = (!isNaN(killed) && !isNaN(total))
-    ? Array.from({ length: total }, (_, i) =>
-        `<span class="${i < killed ? "lit" : ""}"></span>`
-      ).join("")
-    : "";
+  const bosses = (typeof RAID_BOSSES !== "undefined" && RAID_BOSSES[slug]) || null;
+
+  let iconsRow = "";
+  let bars = "";
+
+  if (!isNaN(killed) && !isNaN(total)) {
+    bars = Array.from({ length: total }, (_, i) =>
+      `<span class="${i < killed ? "lit" : ""}"></span>`
+    ).join("");
+
+    if (bosses && bosses.length === total) {
+      iconsRow = `<div class="boss-icons">${bosses.map((b, i) => `
+        <span>
+          <img src="https://wow.zamimg.com/images/wow/icons/medium/${b.icon}.jpg"
+               alt="${b.name}" title="${b.name}" loading="lazy"
+               class="${i < killed ? "" : "boss-icon-pending"}"
+               onerror="this.style.visibility='hidden'">
+        </span>
+      `).join("")}</div>`;
+    }
+  }
 
   return `
     <div class="progress-block">
       <p class="progress-name">${prettifyRaidName(slug)}</p>
       <p class="progress-value">${summary}</p>
+      ${iconsRow}
       <div class="ember-bar">${bars}</div>
     </div>
   `;

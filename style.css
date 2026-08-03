@@ -183,6 +183,33 @@ a { color: var(--ember); }
 
 .progression-list .ember-bar { margin-top: 0.6rem; }
 
+.boss-icons {
+  display: flex;
+  gap: 4px;
+  margin-top: 0.6rem;
+}
+
+.boss-icons span {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.boss-icons img {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  border: 1px solid var(--border);
+  object-fit: cover;
+}
+
+.boss-icons img.boss-icon-pending {
+  opacity: 0.35;
+  filter: grayscale(1);
+}
+
+.progress-block .ember-bar { margin-top: 3px; }
+
 .progression-list .loading {
   color: var(--text-muted);
   font-style: italic;
