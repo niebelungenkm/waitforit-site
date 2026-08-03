@@ -57,24 +57,47 @@ function buildBlock(slug, raid) {
   const [killed, total] = summary.split("/").map(s => parseInt(s));
   const bosses = (typeof RAID_BOSSES !== "undefined" && RAID_BOSSES[slug]) || null;
 
+  // Raid à un seul boss connu : icône à gauche + petite barre compacte.
+  if (bosses && bosses.length === 1 && total === 1) {
+    const boss = bosses[0];
+    const lit = killed >= 1 ? "lit" : "";
+    const iconHtml = boss.url
+      ? `<img class="single-boss-icon" src="${boss.url}"
+             alt="${boss.name}" title="${boss.name}" loading="lazy"
+             onerror="this.style.visibility='hidden'">`
+      : `<div class="single-boss-icon single-boss-icon-placeholder" title="${boss.name}"></div>`;
+    return `
+      <div class="progress-block">
+        <p class="progress-name">${prettifyRaidName(slug)}</p>
+        <div class="single-boss-row">
+          ${iconHtml}
+          <div class="single-boss-info">
+            <p class="progress-value">${summary}</p>
+            <div class="ember-bar ember-bar-mini"><span class="${lit}"></span></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  const bars = (!isNaN(killed) && !isNaN(total))
+    ? Array.from({ length: total }, (_, i) =>
+        `<span class="${i < killed ? "lit" : ""}"></span>`
+      ).join("")
+    : "";
+
   let iconsRow = "";
-  let bars = "";
-
-  if (!isNaN(killed) && !isNaN(total)) {
-    bars = Array.from({ length: total }, (_, i) =>
-      `<span class="${i < killed ? "lit" : ""}"></span>`
-    ).join("");
-
-    if (bosses && bosses.length === total) {
-      iconsRow = `<div class="boss-icons">${bosses.map((b, i) => `
-        <span>
-          <img src="https://wow.zamimg.com/images/wow/icons/medium/${b.icon}.jpg"
+  if (bosses && bosses.length === total) {
+    iconsRow = `<div class="boss-icons">${bosses.map((b, i) => {
+      const img = b.url
+        ? `<img src="${b.url}"
                alt="${b.name}" title="${b.name}" loading="lazy"
                class="${i < killed ? "" : "boss-icon-pending"}"
-               onerror="this.style.visibility='hidden'">
-        </span>
-      `).join("")}</div>`;
-    }
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+           <span class="boss-icon-fallback" title="${b.name}" style="display:none"></span>`
+        : `<span class="boss-icon-fallback" title="${b.name}"></span>`;
+      return `<span>${img}</span>`;
+    }).join("")}</div>`;
   }
 
   return `
