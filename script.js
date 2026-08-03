@@ -36,13 +36,13 @@ function isSeason1(slug) {
 }
 
 async function loadGuildData() {
-  const url = `https://raider.io/api/v1/guilds/profile?region=${REGION}&realm=${REALM}&name=${encodeURIComponent(GUILD_NAME)}&fields=raid_progression`;
+  const url = `https://raider.io/api/v1/guilds/profile?region=${REGION}&realm=${REALM}&name=${encodeURIComponent(GUILD_NAME)}&fields=raid_progression,raid_rankings`;
 
   try {
     const res = await fetch(url);
     if (!res.ok) throw new Error("Réponse API invalide");
     const data = await res.json();
-    renderProgression(data.raid_progression);
+    renderProgression(data.raid_progression, data.raid_rankings);
   } catch (err) {
     ["progression-list-s1", "progression-list-s2"].forEach(id => {
       const el = document.getElementById(id);
@@ -52,10 +52,39 @@ async function loadGuildData() {
   }
 }
 
-function buildBlock(slug, raid) {
+function getDifficultyKey(summary) {
+  const letter = (summary || "").trim().slice(-1).toUpperCase();
+  if (letter === "M") return "mythic";
+  if (letter === "H") return "heroic";
+  if (letter === "N") return "normal";
+  return null;
+}
+
+function buildRankLine(slug, raid, rankings) {
+  if (!rankings || !rankings[slug]) return "";
+  const diffKey = getDifficultyKey(raid.summary);
+  const r = diffKey && rankings[slug][diffKey];
+  if (!r) return "";
+
+  const realm = r.realm ?? r.realm_rank ?? null;
+  const fr = r.faction ?? r.realm_faction ?? r.fr ?? null;
+  const region = r.region ?? r.region_rank ?? null;
+  const world = r.world ?? r.world_rank ?? null;
+
+  const parts = [];
+  if (realm != null) parts.push(`#REALM: ${realm}`);
+  if (fr != null) parts.push(`#FR: ${fr}`);
+  if (region != null) parts.push(`#EU: ${region}`);
+  if (world != null) parts.push(`#WORLD: ${world}`);
+
+  return parts.length ? `<p class="progress-rank">${parts.join("&nbsp;&nbsp;")}</p>` : "";
+}
+
+function buildBlock(slug, raid, rankings) {
   const summary = raid.summary || "—";
   const [killed, total] = summary.split("/").map(s => parseInt(s));
   const bosses = (typeof RAID_BOSSES !== "undefined" && RAID_BOSSES[slug]) || null;
+  const rankLine = buildRankLine(slug, raid, rankings);
 
   const bars = (!isNaN(killed) && !isNaN(total))
     ? Array.from({ length: total }, (_, i) =>
@@ -82,13 +111,14 @@ function buildBlock(slug, raid) {
     <div class="progress-block">
       <p class="progress-name">${prettifyRaidName(slug)}</p>
       <p class="progress-value">${summary}</p>
+      ${rankLine}
       ${iconsRow}
       <div class="ember-bar">${bars}</div>
     </div>
   `;
 }
 
-function renderProgression(progression) {
+function renderProgression(progression, rankings) {
   const entries = Object.entries(progression || {});
   const s1Container = document.getElementById("progression-list-s1");
   const s2Container = document.getElementById("progression-list-s2");
@@ -108,12 +138,12 @@ function renderProgression(progression) {
 
   if (s1Container) {
     s1Container.innerHTML = s1.length
-      ? s1.map(([slug, raid]) => buildBlock(slug, raid)).join("")
+      ? s1.map(([slug, raid]) => buildBlock(slug, raid, rankings)).join("")
       : '<p class="loading">Aucune donnée.</p>';
   }
   if (s2Container) {
     s2Container.innerHTML = s2.length
-      ? s2.map(([slug, raid]) => buildBlock(slug, raid)).join("")
+      ? s2.map(([slug, raid]) => buildBlock(slug, raid, rankings)).join("")
       : '<p class="loading">Aucune donnée.</p>';
   }
 }

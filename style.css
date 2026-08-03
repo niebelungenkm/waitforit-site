@@ -181,6 +181,14 @@ a { color: var(--ember); }
   font-size: 1.4rem;
 }
 
+.progress-rank {
+  margin: 0.2rem 0 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+}
+
 .progression-list .ember-bar { margin-top: 0.6rem; }
 
 .boss-icons {
