@@ -137,8 +137,7 @@ a { color: var(--ember); }
 }
 
 .side-col {
-  position: sticky;
-  top: 1.5rem;
+  position: static;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
