@@ -4,61 +4,62 @@
 // https://docs.google.com/spreadsheets/d/1ClFvkCpXQdvWpPqah8YCpS5A5EKQFIpp91Crp8v3Xx0/edit
 //
 // Chaque classe est regroupée par rôle (DPS / Tank / Heal) plutôt que par
-// spécialisation individuelle. Quand une classe n'a qu'un seul rôle possible
-// (ex. Mage, Rogue, Warlock = DPS uniquement), la case n'affiche que le nom
-// de la classe, sans suffixe de rôle.
+// spécialisation individuelle. Chaque case affiche les icônes de toutes les
+// spécialisations qu'elle regroupe (ex. Mage DPS = Arcanes + Feu + Givre).
+// Quand une classe n'a qu'un seul rôle possible (ex. Mage, Rogue, Warlock),
+// la case n'affiche que le nom de la classe, sans suffixe de rôle.
 // role : "dps" | "tank" | "heal" | null (null = rôle unique, pas de suffixe)
 const SPECS = [
   // Death Knight (Tank + DPS)
-  { class: "Death Knight", role: "tank", icon: "spell_deathknight_bloodpresence" },
-  { class: "Death Knight", role: "dps",  icon: "spell_deathknight_frostpresence" },
+  { class: "Death Knight", role: "tank", icons: ["spell_deathknight_bloodpresence"] },
+  { class: "Death Knight", role: "dps",  icons: ["spell_deathknight_frostpresence", "spell_deathknight_unholypresence"] },
 
   // Demon Hunter (DPS + Tank)
-  { class: "Demon Hunter", role: "dps",  icon: "ability_demonhunter_specdps" },
-  { class: "Demon Hunter", role: "tank", icon: "ability_demonhunter_spectank" },
+  { class: "Demon Hunter", role: "dps",  icons: ["ability_demonhunter_specdps", "classicon_demonhunter_void"] },
+  { class: "Demon Hunter", role: "tank", icons: ["ability_demonhunter_spectank"] },
 
   // Druid (DPS + Tank + Heal)
-  { class: "Druid", role: "dps",  icon: "spell_nature_starfall" },
-  { class: "Druid", role: "tank", icon: "ability_racial_bearform" },
-  { class: "Druid", role: "heal", icon: "spell_nature_healingtouch" },
+  { class: "Druid", role: "dps",  icons: ["spell_nature_starfall", "ability_druid_catform"] },
+  { class: "Druid", role: "tank", icons: ["ability_racial_bearform"] },
+  { class: "Druid", role: "heal", icons: ["spell_nature_healingtouch"] },
 
   // Evoker (DPS + Heal)
-  { class: "Evoker", role: "dps",  icon: "classicon_evoker_devastation" },
-  { class: "Evoker", role: "heal", icon: "classicon_evoker_preservation" },
+  { class: "Evoker", role: "dps",  icons: ["classicon_evoker_devastation", "classicon_evoker_augmentation"] },
+  { class: "Evoker", role: "heal", icons: ["classicon_evoker_preservation"] },
 
   // Hunter — DPS uniquement
-  { class: "Hunter", role: null, icon: "ability_hunter_bestialdiscipline" },
+  { class: "Hunter", role: null, icons: ["ability_hunter_bestialdiscipline", "ability_hunter_focusedaim", "ability_hunter_camouflage"] },
 
   // Mage — DPS uniquement
-  { class: "Mage", role: null, icon: "spell_holy_magicalsentry" },
+  { class: "Mage", role: null, icons: ["spell_holy_magicalsentry", "spell_fire_firebolt02", "spell_frost_frostbolt02"] },
 
   // Monk (Tank + DPS + Heal)
-  { class: "Monk", role: "tank", icon: "spell_monk_brewmaster_spec" },
-  { class: "Monk", role: "dps",  icon: "spell_monk_windwalker_spec" },
-  { class: "Monk", role: "heal", icon: "spell_monk_mistweaver_spec" },
+  { class: "Monk", role: "tank", icons: ["spell_monk_brewmaster_spec"] },
+  { class: "Monk", role: "dps",  icons: ["spell_monk_windwalker_spec"] },
+  { class: "Monk", role: "heal", icons: ["spell_monk_mistweaver_spec"] },
 
   // Paladin (Heal + Tank + DPS)
-  { class: "Paladin", role: "heal", icon: "spell_holy_holybolt" },
-  { class: "Paladin", role: "tank", icon: "ability_paladin_shieldofthetemplar" },
-  { class: "Paladin", role: "dps",  icon: "spell_holy_auraoflight" },
+  { class: "Paladin", role: "heal", icons: ["spell_holy_holybolt"] },
+  { class: "Paladin", role: "tank", icons: ["ability_paladin_shieldofthetemplar"] },
+  { class: "Paladin", role: "dps",  icons: ["spell_holy_auraoflight"] },
 
   // Priest (Heal + DPS)
-  { class: "Priest", role: "heal", icon: "spell_holy_powerwordshield" },
-  { class: "Priest", role: "dps",  icon: "spell_shadow_shadowwordpain" },
+  { class: "Priest", role: "heal", icons: ["spell_holy_powerwordshield", "spell_holy_guardianspirit"] },
+  { class: "Priest", role: "dps",  icons: ["spell_shadow_shadowwordpain"] },
 
   // Rogue — DPS uniquement
-  { class: "Rogue", role: null, icon: "ability_rogue_deadlybrew" },
+  { class: "Rogue", role: null, icons: ["ability_rogue_deadlybrew", "ability_rogue_waylay", "ability_stealth"] },
 
   // Shaman (DPS + Heal)
-  { class: "Shaman", role: "dps",  icon: "spell_nature_lightning" },
-  { class: "Shaman", role: "heal", icon: "spell_nature_magicimmunity" },
+  { class: "Shaman", role: "dps",  icons: ["spell_nature_lightning", "spell_shaman_improvedstormstrike"] },
+  { class: "Shaman", role: "heal", icons: ["spell_nature_magicimmunity"] },
 
   // Warlock — DPS uniquement
-  { class: "Warlock", role: null, icon: "spell_shadow_deathcoil" },
+  { class: "Warlock", role: null, icons: ["spell_shadow_deathcoil", "spell_shadow_metamorphosis", "spell_shadow_rainoffire"] },
 
   // Warrior (DPS + Tank)
-  { class: "Warrior", role: "dps",  icon: "ability_warrior_savageblow" },
-  { class: "Warrior", role: "tank", icon: "ability_warrior_defensivestance" }
+  { class: "Warrior", role: "dps",  icons: ["ability_warrior_savageblow", "ability_warrior_innerrage"] },
+  { class: "Warrior", role: "tank", icons: ["ability_warrior_defensivestance"] }
 ];
 
 const ROLE_LABEL = {
@@ -130,10 +131,13 @@ function renderSpecGrid(statusMap) {
         const name = s.role ? `${s.class} ${ROLE_LABEL[s.role]}` : s.class;
         const key = s.class + "|" + (s.role || "");
         const status = statusMap[key] || "sur-demande";
+        const iconsHtml = s.icons.map(icon => `
+          <img class="spec-icon" src="https://wow.zamimg.com/images/wow/icons/medium/${icon}.jpg" alt="" loading="lazy"
+               onerror="this.style.visibility='hidden'">
+        `).join("");
         return `
           <div class="spec-card status-${status}">
-            <img class="spec-icon" src="https://wow.zamimg.com/images/wow/icons/medium/${s.icon}.jpg" alt="" loading="lazy"
-                 onerror="this.style.visibility='hidden'">
+            <div class="spec-icons">${iconsHtml}</div>
             <div class="spec-info">
               <p class="spec-name">${name}</p>
             </div>
