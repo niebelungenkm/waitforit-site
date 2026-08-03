@@ -78,15 +78,29 @@ function renderSpecGrid() {
   const grid = document.getElementById("spec-grid");
   if (!grid) return;
 
-  grid.innerHTML = SPECS.map(s => `
-    <div class="spec-card status-${s.status}">
-      <img class="spec-icon" src="https://wow.zamimg.com/images/wow/icons/medium/${s.icon}.jpg" alt="" loading="lazy"
-           onerror="this.style.visibility='hidden'">
-      <div class="spec-info">
-        <p class="spec-name">${s.spec}</p>
-        <p class="spec-class">${s.class}</p>
-      </div>
-      <span class="status-badge status-${s.status}" title="${STATUS_LABEL[s.status]}"></span>
+  const byClass = [];
+  const index = {};
+  SPECS.forEach(s => {
+    if (!(s.class in index)) {
+      index[s.class] = byClass.length;
+      byClass.push({ class: s.class, specs: [] });
+    }
+    byClass[index[s.class]].specs.push(s);
+  });
+
+  grid.innerHTML = byClass.map(group => `
+    <div class="class-row">
+      ${group.specs.map(s => `
+        <div class="spec-card status-${s.status}">
+          <img class="spec-icon" src="https://wow.zamimg.com/images/wow/icons/medium/${s.icon}.jpg" alt="" loading="lazy"
+               onerror="this.style.visibility='hidden'">
+          <div class="spec-info">
+            <p class="spec-name">${s.spec}</p>
+            <p class="spec-class">${s.class}</p>
+          </div>
+          <span class="status-badge status-${s.status}" title="${STATUS_LABEL[s.status]}"></span>
+        </div>
+      `).join("")}
     </div>
   `).join("");
 }
