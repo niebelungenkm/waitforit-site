@@ -356,9 +356,19 @@ section h2 {
 }
 
 .spec-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 0.4rem;
+}
+
+.class-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.class-row .spec-card {
+  flex: 1 1 150px;
 }
 
 .spec-card {
